@@ -9,6 +9,7 @@
 
 #include "pico/stdlib.h"
 #include "hardware/pwm.h"
+#include "pico/cyw43_arch.h"
 
 extern "C" {
 #include "pico/pdm_microphone.h"
@@ -68,7 +69,8 @@ int main( void )
 
     printf("hello pico fire alarm detection\n");
 
-    gpio_set_function(PICO_DEFAULT_LED_PIN, GPIO_FUNC_PWM);
+    //gpio_set_function(PICO_DEFAULT_LED_PIN, GPIO_FUNC_PWM);
+    gpio_set_function(CYW43_WL_GPIO_LED_PIN, GPIO_FUNC_PWM);
     
     uint pwm_slice_num = pwm_gpio_to_slice_num(PICO_DEFAULT_LED_PIN);
     uint pwm_chan_num = pwm_gpio_to_channel(PICO_DEFAULT_LED_PIN);
