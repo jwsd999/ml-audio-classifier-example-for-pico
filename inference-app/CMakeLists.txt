@@ -21,6 +21,7 @@ set(DSP ${ROOT}/CMSIS/DSP)
 set(CONFIGTABLE ON)
 set(RFFT_Q15_256 ON)
 set(ALLFAST ON)
+set(PICO_BOARD pico_w)
 
 # include CMSIS-DSP .cmake for GCC Toolchain
 include(${DSP}/Toolchain/GCC.cmake)
@@ -37,6 +38,7 @@ add_executable(pico_inference_app
 
 target_link_libraries(pico_inference_app
     pico_stdlib
+    pico_cyw43_arch_none
     hardware_pwm
     pico-tflmicro
     pico_pdm_microphone
