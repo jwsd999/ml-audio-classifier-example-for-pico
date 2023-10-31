@@ -140,7 +140,7 @@ int main( void )
 
         if (prediction >= 0.5) {
           printf("\t🔥 🔔\tdetected!\t(prediction = %f)\n\n", prediction);
-          gpio_put(15, GPIO_FUNC_PWM)
+          gpio_put(15, GPIO_FUNC_PWM);
         } else {
           printf("\t🔕\tNOT detected\t(prediction = %f)\n\n", prediction);
         }
