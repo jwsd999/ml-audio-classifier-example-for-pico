@@ -8,7 +8,6 @@
 #include <stdio.h>
 
 #include "pico/stdlib.h"
-#include "pico/cyw43_arch.h"
 #include "hardware/pwm.h"
 
 extern "C" {
@@ -67,21 +66,16 @@ int main( void )
     // initialize stdio
     stdio_init_all();
 
-    if (cyw43_arch_init()) {
-        printf("Wi-Fi init failed");
-        return -1;
-    }
-
     printf("hello pico fire alarm detection\n");
 
-    //gpio_set_function(PICO_DEFAULT_LED_PIN, GPIO_FUNC_PWM);
-    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, GPIO_FUNC_PWM)
+    gpio_set_function(15, GPIO_FUNC_PWM);
+    //cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, GPIO_FUNC_PWM)
     
-    //uint pwm_slice_num = pwm_gpio_to_slice_num(PICO_DEFAULT_LED_PIN);
-    //uint pwm_chan_num = pwm_gpio_to_channel(PICO_DEFAULT_LED_PIN);
+    uint pwm_slice_num = pwm_gpio_to_slice_num(15);
+    uint pwm_chan_num = pwm_gpio_to_channel(15);
 
-    uint pwm_slice_num = pwm_gpio_to_slice_num(CYW43_WL_GPIO_LED_PIN);
-    uint pwm_chan_num = pwm_gpio_to_channel(CYW43_WL_GPIO_LED_PIN);
+    //uint pwm_slice_num = pwm_gpio_to_slice_num(CYW43_WL_GPIO_LED_PIN);
+    //uint pwm_chan_num = pwm_gpio_to_channel(CYW43_WL_GPIO_LED_PIN);
 
     // Set period of 256 cycles (0 to 255 inclusive)
     pwm_set_wrap(pwm_slice_num, 256);
@@ -146,6 +140,7 @@ int main( void )
 
         if (prediction >= 0.5) {
           printf("\t🔥 🔔\tdetected!\t(prediction = %f)\n\n", prediction);
+          gpio_put(15, GPIO_FUNC_PWM)
         } else {
           printf("\t🔕\tNOT detected\t(prediction = %f)\n\n", prediction);
         }
